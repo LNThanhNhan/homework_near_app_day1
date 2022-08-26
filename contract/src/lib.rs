@@ -2,9 +2,11 @@ use std::collections::HashMap;
 
 use near_sdk::borsh::{self, BorshDeserialize, BorshSerialize};
 use near_sdk::{near_bindgen};
+use near_sdk::serde::{Serialize};
 
 #[near_bindgen]
-#[derive(BorshDeserialize, BorshSerialize,Debug,Clone)]
+#[derive(BorshDeserialize,BorshSerialize, Serialize,Debug,Clone)]
+#[serde(crate="near_sdk::serde")]
 pub struct Task{
     id: u8,
     task: String,
@@ -14,6 +16,7 @@ pub struct Task{
 // Define the contract structure
 #[near_bindgen]
 #[derive(BorshDeserialize, BorshSerialize,Debug)]
+
 pub struct List {
     inner: HashMap<u8, Task>,
 }
@@ -25,6 +28,7 @@ impl Default for List {
     }
 }
 
+#[near_bindgen]
 // Implement the contract structure
 impl List {
     pub fn add_task(&mut self, task_name:String)  {
